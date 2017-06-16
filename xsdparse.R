@@ -6,24 +6,36 @@ setwd("/home/manish/Downloads/0001000180-16-000068-xbrl/")
 
 library(rvest)
 
-xsd<-read_html("sndk-20160103.xsd")
+#xsd is path to the xsd file
 
-xsdele<-html_nodes(xsd,xpath='//element') %>% html_attrs()
-xsdpre<-html_nodes(xsd,xpath='//roletype') %>% html_attrs()
-xsdpredef<-html_nodes(xsd,xpath='//roletype') %>% html_node('definition') %>% html_text()
+xsdParse<-function(xsd){
+ 
+#Read the file in   
+xsd_in<-read_html(xsd)
 
-#132 definitions
+#Extract the roletype (& definition) and the elements
+  
+xsdele<-html_nodes(xsd_in,xpath='//element') %>% html_attrs()
+xsdpre<-html_nodes(xsd_in,xpath='//roletype') %>% html_attrs()
+xsdpredef<-html_nodes(xsd_in,xpath='//roletype') %>% html_node('definition') %>% html_text()
 
+#Definition table 
 tt1<-rbindlist(lapply(xsdpre,function(x) as.data.frame(t(x))),fill=TRUE)
 row.names(tt1)<-NULL
 
 #Now create the final dataset
-xsd_ele<-data.table("id"=tt1[,"id"]
+xsd_pre<-data.table("id"=tt1[,"id"]
                     ,"roleurl"=tt1[,"roleuri"]
                     ,"pre_def"=xsdpredef)
 
-
 #Get the element
-tt2<-rbindlist(lapply(xsdele,function(x) as.data.frame(t(x))),fill=TRUE)
-row.names(tt2)<-NULL
+xsd_ele<-rbindlist(lapply(xsdele,function(x) as.data.frame(t(x))),fill=TRUE)
+row.names(xsd_ele)<-NULL
+                          
+return("Pre_Def"=xsd_pre,"Ele_Details"=xsd_ele)
+                          
+}                          
+                          
+                          
+                          
 
