@@ -54,6 +54,7 @@ for(i in seq(1,length(prelink))){
     pre_loc<-rbind(pre_loc,tmp1)
     pre_arc<-rbind(pre_arc,tmp2)
   }
-  
+                             
+  return(list("pre_loc"=pre_loc,"pre_arc"=pre_arc))                           
   }
 
