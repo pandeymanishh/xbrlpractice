@@ -1,12 +1,6 @@
-setwd("/home/manish/Downloads/0001000180-16-000068-xbrl/")
 
-install.packages("rvest",dep=T)
-
-library(rvest)
-
-pre<-read_html("sndk-20160103_pre.xml")
-xsd<-read_html("sndk-20160103.xsd")
-
+pre_Parse<-function(prexml){
+  
 #Get the presentation links
 
 prelink<-html_nodes(prexml,xpath='//presentationlink') 
@@ -56,5 +50,6 @@ for(i in seq(1,length(prelink))){
   }
                              
   return(list("pre_loc"=pre_loc,"pre_arc"=pre_arc))                           
-  }
+}
+}
 

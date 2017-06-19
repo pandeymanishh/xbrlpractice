@@ -1,10 +1,3 @@
-#Getting ready with xsd file 
-
-##Primary there roletypes and element tags
-
-setwd("/home/manish/Downloads/0001000180-16-000068-xbrl/")
-
-library(rvest)
 
 #xsd is path to the xsd file
 
@@ -24,11 +17,11 @@ tt1<-rbindlist(lapply(xsdpre,function(x) as.data.frame(t(x))),fill=TRUE)
 row.names(tt1)<-NULL
 
 #Now create the final dataset
-xsd_pre<-data.table("id"tt1[,"id"]
+xsd_pre<-data.table("id"=tt1[,"id"]
                     ,"roleurl"=tt1[,"roleuri"]
                     ,"pre_def"=xsdpredef)
 
- #Table head
+#Table head
 pre_header=str_split(xsd_pre$pre_def,"-")
 pre_header1<-sapply(pre_head,function(x){paste(str_trim(x[3:length(x)]),collapse=":")})
                       
